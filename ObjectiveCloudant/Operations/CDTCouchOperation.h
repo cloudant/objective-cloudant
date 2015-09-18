@@ -71,7 +71,7 @@ typedef NS_ENUM(NSInteger, CDTObjectiveCloudantErrors) {
 
  Typically an operation would add to queryItems here.
  */
-- (void)buildAndValidate;
+- (BOOL)buildAndValidate;
 
 /**
  Override point for sub-classes. Dispatch an async HTTP request. Call `completeOperation` when

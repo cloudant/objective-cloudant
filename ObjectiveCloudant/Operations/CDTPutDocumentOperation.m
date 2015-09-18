@@ -10,13 +10,23 @@
 
 @implementation CDTPutDocumentOperation
 
-- (void)buildAndValidate
+- (BOOL)buildAndValidate
 {
-    [super buildAndValidate];
+    if(![super buildAndValidate]){
+        return NO;
+    }
 
-    NSAssert(self.docId, @"docId was nil");
-    NSAssert(self.body, @"body was nil");
-    NSAssert([NSJSONSerialization isValidJSONObject:self.body], @"body was invalid JSON");
+    
+    if(!self.docId){
+        NSLog(@"docId was nil");
+        return NO;
+    } else if (!self.body) {
+        NSLog(@"body was nil");
+        return NO;
+    } else if (![NSJSONSerialization isValidJSONObject:self.body]){
+        NSLog(@"body was invalid JSON");
+        return NO;
+    }
 
     NSMutableArray *tmp = [NSMutableArray array];
 
@@ -25,6 +35,7 @@
     }
 
     self.queryItems = [NSArray arrayWithArray:tmp];
+    return YES;
 }
 
 #pragma mark Instance methods

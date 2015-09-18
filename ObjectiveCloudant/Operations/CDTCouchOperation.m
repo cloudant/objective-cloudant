@@ -21,7 +21,7 @@ NSString *const CDTObjectiveCloudantErrorDomain = @"CDTObjectiveCloudantErrorDom
 
 #pragma mark Sub-class overrides
 
-- (void)buildAndValidate { return; }
+- (BOOL)buildAndValidate { return YES; }
 
 - (void)dispatchAsyncHttpRequest { return; }
 
@@ -54,12 +54,18 @@ NSString *const CDTObjectiveCloudantErrorDomain = @"CDTObjectiveCloudantErrorDom
         return;
     }
 
-    // If the operation is not canceled, begin executing the task.
-    [self willChangeValueForKey:@"isExecuting"];
-    [self buildAndValidate];
-    [self dispatchAsyncHttpRequest];
-    executing = YES;
-    [self didChangeValueForKey:@"isExecuting"];
+
+    
+    if([self buildAndValidate]){
+        // If the operation is not canceled and is valid, begin executing the task.
+        [self willChangeValueForKey:@"isExecuting"];
+        [self dispatchAsyncHttpRequest];
+        executing = YES;
+        [self didChangeValueForKey:@"isExecuting"];
+    } else {
+        //throw an expcetion because this should be a coding error?
+        @throw [[NSException alloc]initWithName:@"Invalid Operation" reason:@"Operation was configured incorrectly" userInfo:@{}];
+    }
 }
 
 - (void)completeOperation

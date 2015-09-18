@@ -17,12 +17,16 @@
 
 @implementation CDTGetDocumentOperation
 
-- (void)buildAndValidate
+- (BOOL)buildAndValidate
 {
-    [super buildAndValidate];
+    if(![super buildAndValidate]){
+        return NO;
+    }
 
     self.queryItems =
         @[ [NSURLQueryItem queryItemWithName:@"revs" value:(self.revs ? @"true" : @"false")] ];
+    
+    return YES;
 }
 
 #pragma mark Instance methods

@@ -10,8 +10,6 @@
 
 @implementation CDTCreateDatabaseOperation
 
-- (void)buildAndValidate { [super buildAndValidate]; }
-
 #pragma mark Instance methods
 
 - (void)dispatchAsyncHttpRequest
