@@ -51,4 +51,16 @@
         completionHandler:(void (^_Nonnull)(NSDictionary *_Nullable document,
                                             NSError *_Nullable error))completionHandler;
 
+/**
+ Convenience method for updating a document.
+
+ Use a CDTPutDocumentOperation for greater control.
+ */
+- (void)putDocumentWithId:(nonnull NSString *)documentId
+                    revId:(nonnull NSString *)revId
+                     body:(nonnull NSDictionary<NSString *, NSObject *> *)body
+        completionHandler:(void (^_Nonnull)(NSInteger statusCode, NSString *_Nullable docId,
+                                            NSString *_Nullable revId,
+                                            NSError *_Nullable operationError))completionHandler;
+
 @end

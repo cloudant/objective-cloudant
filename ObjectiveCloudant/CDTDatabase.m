@@ -18,6 +18,7 @@
 
 #import "CouchDB.h"
 #import "CDTGetDocumentOperation.h"
+#import "CDTPutDocumentOperation.h"
 
 @interface CDTDatabase ()
 
@@ -79,6 +80,20 @@
     CDTGetDocumentOperation *op = [[CDTGetDocumentOperation alloc] init];
     op.docId = documentId;
     op.getDocumentCompletionBlock = completionHandler;
+    [self addOperation:op];
+}
+
+- (void)putDocumentWithId:(nonnull NSString *)documentId
+                    revId:(nonnull NSString *)revId
+                     body:(nonnull NSDictionary<NSString *, NSObject *> *)body
+        completionHandler:(void (^_Nonnull)(NSInteger, NSString *_Nullable, NSString *_Nullable,
+                                            NSError *_Nullable))completionHandler
+{
+    CDTPutDocumentOperation *op = [[CDTPutDocumentOperation alloc] init];
+    op.docId = documentId;
+    op.revId = revId;
+    op.body = body;
+    op.putDocumentCompletionBlock = completionHandler;
     [self addOperation:op];
 }
 
