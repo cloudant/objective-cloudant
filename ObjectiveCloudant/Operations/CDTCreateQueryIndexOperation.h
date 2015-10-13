@@ -31,6 +31,19 @@
 @property (nullable, nonatomic, strong) NSArray<NSObject*>* fields;
 
 /**
+ * The name of the analyzer to use for this index.
+ * Optional: CouchDb will use the default analyzer if one is not specified
+ * Note: text indexes only
+ **/
+@property (nullable, nonatomic, strong) NSString* analyzer;
+
+/**
+ * A selector to limit the documents in the index.
+ * Optional: If ommited all documents will be included in the index
+ * Note: text indexes only.
+ **/
+@property (nullable, nonatomic, strong) NSDictionary* selector;
+/**
  * The index type to use, deafults to json.
  **/
 @property (nonatomic) CDTQueryIndexType indexType;

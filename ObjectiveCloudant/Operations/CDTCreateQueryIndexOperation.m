@@ -42,6 +42,26 @@
         return NO;
     }
 
+    switch (self.indexType) {
+        case CDTQueryIndexTypeJson:
+            return [self validJsonIndexOperation];
+        case CDTQueryIndexTypeText:
+            return [self validTextIndexOperation];
+        default:
+            return NO;
+    }
+}
+
+- (BOOL)validJsonIndexOperation
+{
+    // check if the text only things have been used
+    if (self.selector) {
+        return NO;
+    }
+    if (self.analyzer) {
+        return NO;
+    }
+
     // fields is the only required parameter
     if ((!self.fields) || self.fields.count == 0) {
         return NO;
@@ -79,6 +99,62 @@
     NSMutableDictionary *body = [NSMutableDictionary dictionary];
     body[@"index"] = @{ @"fields" : self.fields };
     body[@"type"] = @"json";  // only type supported for now.
+    if (self.indexName) {
+        body[@"name"] = self.indexName;
+    }
+    if (self.designDocName) {
+        body[@"ddoc"] = self.designDocName;
+    }
+
+    NSError *error = nil;
+
+    self.jsonBody = [NSJSONSerialization dataWithJSONObject:body options:0 error:&error];
+
+    return (self.jsonBody != nil);
+}
+
+- (BOOL)validTextIndexOperation
+{
+    // fields is the only required parameter
+    if (!self.fields) {
+        return NO;
+    } else if (self.fields > 0) {  // less than zero will cause indexing everywhere
+        // check the fields are either string or 2 element dict of strings
+        for (NSObject *item in self.fields) {
+            if ([item isKindOfClass:[NSString class]]) {
+                continue;
+            } else if ([item isKindOfClass:[NSDictionary class]]) {
+                // must be only one key, both strings.
+                NSDictionary *sort = (NSDictionary *)item;
+                if (sort.count != 1) {
+                    return NO;
+                }
+
+                if (![sort.allKeys[0] isKindOfClass:[NSString class]]) {
+                    return NO;
+                }
+
+                NSString *key = sort.allKeys[0];
+
+                if (![sort[key] isKindOfClass:[NSString class]]) {
+                    return NO;
+                } else if (![sort[key] isEqualToString:@"asc"] &&
+                           ![sort[key] isEqualToString:@"desc"]) {
+                    return NO;
+                }
+
+            } else {
+                return NO;
+            }
+        }
+    }
+
+    NSMutableDictionary *body = [NSMutableDictionary dictionary];
+    body[@"index"] = [@{ @"fields" : self.fields } mutableCopy];
+    body[@"type"] = @"json";  // only type supported for now.
+    if (self.analyzer) {
+        body[@"index"][@"default_field"] = @{ @"enabled" : @(YES) };
+    }
     if (self.indexName) {
         body[@"name"] = self.indexName;
     }

@@ -52,9 +52,9 @@
     self.dbName = [NSString stringWithFormat:@"%@-test-database-%@", REMOTE_DB_PREFIX,
                                              [TestHelpers generateRandomString:5]];
 
-    CouchDB *client = [CouchDB clientForURL:[NSURL URLWithString:self.url]
-                                   username:self.username
-                                   password:self.password];
+    CDTCouchDBClient *client = [CDTCouchDBClient clientForURL:[NSURL URLWithString:self.url]
+                                                     username:self.username
+                                                     password:self.password];
     self.database = client[self.dbName];
 }
 
@@ -326,6 +326,49 @@
       [create fulfill];
       XCTAssertNotNil(error);
       XCTAssertEqual(400, status);
+    };
+
+    [self.database addOperation:index];
+
+    [self waitForExpectationsWithTimeout:10
+                                 handler:^(NSError *_Nullable error) {
+                                   NSLog(@"Failed create index");
+                                 }];
+}
+
+- (void)testIndexCreationFailsUsingTextParamsWithJson
+{
+    CDTCreateQueryIndexOperation *index = [[CDTCreateQueryIndexOperation alloc] init];
+    index.fields = @[ @"foo", @"bar" ];
+    index.selector = @{ @"foo" : @"bar" };
+    index.analyzer = @"spanish";
+    index.indexType = CDTQueryIndexTypeJson;
+    XCTestExpectation *create = [self expectationWithDescription:@"Create index test"];
+    index.createIndexCompletionBlock = ^(NSInteger status, NSError *error) {
+      [create fulfill];
+      XCTAssertNotNil(error);
+      XCTAssertEqual(kCDTNoHTTPStatus, status);
+    };
+
+    [self.database addOperation:index];
+
+    [self waitForExpectationsWithTimeout:10
+                                 handler:^(NSError *_Nullable error) {
+                                   NSLog(@"Failed create index");
+                                 }];
+}
+
+- (void)testIndexCreationPassesUsingTextParamsWithTextIndex
+{
+    CDTCreateQueryIndexOperation *index = [[CDTCreateQueryIndexOperation alloc] init];
+    index.fields = @[ @"foo", @"bar" ];
+    index.selector = @{ @"foo" : @"bar" };
+    index.analyzer = @"spanish";
+    XCTestExpectation *create = [self expectationWithDescription:@"Create index test"];
+    index.createIndexCompletionBlock = ^(NSInteger status, NSError *error) {
+      [create fulfill];
+      XCTAssertNil(error);
+      XCTAssertEqual(2, status / 100);
     };
 
     [self.database addOperation:index];
