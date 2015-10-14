@@ -26,7 +26,9 @@
 
 /**
  *  The fields to be included in the index.
- *  Required: Needs to be set with a non zero length array.
+ *
+ *  Required: fields are required for *JSON Indexes*
+ *  Optional: fields are optional for *Text Indexes*
  **/
 @property (nullable, nonatomic, strong) NSArray<NSObject*>* fields;
 
@@ -43,6 +45,7 @@
  * Note: text indexes only.
  **/
 @property (nullable, nonatomic, strong) NSDictionary* selector;
+
 /**
  * The index type to use, deafults to json.
  **/

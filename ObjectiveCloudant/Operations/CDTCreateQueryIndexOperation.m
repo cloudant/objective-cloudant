@@ -44,15 +44,15 @@
 
     switch (self.indexType) {
         case CDTQueryIndexTypeJson:
-            return [self validJsonIndexOperation];
+            return [self buildAndValidateJsonIndex];
         case CDTQueryIndexTypeText:
-            return [self validTextIndexOperation];
+            return [self buildAndValidateTextIndex];
         default:
             return NO;
     }
 }
 
-- (BOOL)validJsonIndexOperation
+- (BOOL)buildAndValidateJsonIndex
 {
     // check if the text only things have been used
     if (self.selector) {
@@ -98,7 +98,7 @@
 
     NSMutableDictionary *body = [NSMutableDictionary dictionary];
     body[@"index"] = @{ @"fields" : self.fields };
-    body[@"type"] = @"json";  // only type supported for now.
+    body[@"type"] = @"json";
     if (self.indexName) {
         body[@"name"] = self.indexName;
     }
@@ -113,12 +113,10 @@
     return (self.jsonBody != nil);
 }
 
-- (BOOL)validTextIndexOperation
+- (BOOL)buildAndValidateTextIndex
 {
-    // fields is the only required parameter
-    if (!self.fields) {
-        return NO;
-    } else if (self.fields > 0) {  // less than zero will cause indexing everywhere
+    // fields parameter is not requried for text indexes
+    if (self.fields > 0) {  // less than zero will cause indexing everywhere
         // check the fields are either string or 2 element dict of strings
         for (NSObject *item in self.fields) {
             if ([item isKindOfClass:[NSString class]]) {
@@ -150,8 +148,11 @@
     }
 
     NSMutableDictionary *body = [NSMutableDictionary dictionary];
-    body[@"index"] = [@{ @"fields" : self.fields } mutableCopy];
-    body[@"type"] = @"json";  // only type supported for now.
+    body[@"index"] = [NSMutableDictionary dictionary];
+    if (self.fields) {
+        body[@"fields"] = self.fields;
+    }
+    body[@"type"] = @"text";
     if (self.analyzer) {
         body[@"index"][@"default_field"] = @{ @"enabled" : @(YES) };
     }

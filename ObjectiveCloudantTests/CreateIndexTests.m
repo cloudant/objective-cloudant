@@ -364,6 +364,29 @@
     index.fields = @[ @"foo", @"bar" ];
     index.selector = @{ @"foo" : @"bar" };
     index.analyzer = @"spanish";
+    index.indexType = CDTQueryIndexTypeText;
+    XCTestExpectation *create = [self expectationWithDescription:@"Create index test"];
+    index.createIndexCompletionBlock = ^(NSInteger status, NSError *error) {
+      [create fulfill];
+      XCTAssertNil(error);
+      XCTAssertEqual(2, status / 100);
+    };
+
+    [self.database addOperation:index];
+
+    [self waitForExpectationsWithTimeout:10
+                                 handler:^(NSError *_Nullable error) {
+                                   NSLog(@"Failed create index");
+                                 }];
+}
+
+- (void)testIndexCreationPassesWithNilfiledsTextIndex
+{
+    CDTCreateQueryIndexOperation *index = [[CDTCreateQueryIndexOperation alloc] init];
+    index.fields = nil;
+    index.selector = @{ @"foo" : @"bar" };
+    index.analyzer = @"spanish";
+    index.indexType = CDTQueryIndexTypeText;
     XCTestExpectation *create = [self expectationWithDescription:@"Create index test"];
     index.createIndexCompletionBlock = ^(NSInteger status, NSError *error) {
       [create fulfill];
