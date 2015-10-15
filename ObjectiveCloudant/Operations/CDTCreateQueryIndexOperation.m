@@ -154,7 +154,7 @@
     }
     body[@"type"] = @"text";
     if (self.analyzer) {
-        body[@"index"][@"default_field"] = @{ @"enabled" : @(YES) };
+        body[@"index"][@"default_field"] = @{ @"enabled" : @(YES), @"analyzer" : self.analyzer };
     }
     if (self.indexName) {
         body[@"name"] = self.indexName;
