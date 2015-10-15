@@ -122,7 +122,7 @@
             if ([item isKindOfClass:[NSString class]]) {
                 continue;
             } else if ([item isKindOfClass:[NSDictionary class]]) {
-                // must be only one key, both strings.
+                // must be of size one, with both key and value strings
                 NSDictionary *sort = (NSDictionary *)item;
                 if (sort.count != 1) {
                     return NO;
