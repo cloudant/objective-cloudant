@@ -122,25 +122,19 @@
             if ([item isKindOfClass:[NSString class]]) {
                 continue;
             } else if ([item isKindOfClass:[NSDictionary class]]) {
-                // must be of size one, with both key and value strings
                 NSDictionary *sort = (NSDictionary *)item;
                 if (sort.count != 1) {
                     return NO;
                 }
 
-                if (![sort.allKeys[0] isKindOfClass:[NSString class]]) {
+                NSObject *key = sort.allKeys[0];
+                NSObject *value = sort[key];
+                if (![key isKindOfClass:[NSString class]]) {
                     return NO;
                 }
-
-                NSString *key = sort.allKeys[0];
-
-                if (![sort[key] isKindOfClass:[NSString class]]) {
-                    return NO;
-                } else if (![sort[key] isEqualToString:@"asc"] &&
-                           ![sort[key] isEqualToString:@"desc"]) {
+                if (![@[ @"asc", @"desc" ] containsObject:value]) {
                     return NO;
                 }
-
             } else {
                 return NO;
             }
