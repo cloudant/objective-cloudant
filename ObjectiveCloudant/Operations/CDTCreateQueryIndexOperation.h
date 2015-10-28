@@ -40,7 +40,11 @@
 @property (nullable, nonatomic, strong) NSString* defaultFieldAnalyzer;
 
 /**
- * If the default field should be enabled for this index
+ * If the default field should be enabled for this index.
+ *
+ * If default field is disabled, the `$text` operator will
+ * return 0 results. If you wish to use the `$text` operator
+ * the index being created needs this option to be set to YES.
  *
  * Default: NO, default field index is disabled by default
  * Note: text indexes only
