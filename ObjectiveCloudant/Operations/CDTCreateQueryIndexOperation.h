@@ -33,11 +33,19 @@
 @property (nullable, nonatomic, strong) NSArray<NSObject*>* fields;
 
 /**
- * The name of the analyzer to use for this index.
+ * The name of the analyzer to use for $text operator with this index.
  * Optional: CouchDb will use the default analyzer if one is not specified
  * Note: text indexes only
  **/
-@property (nullable, nonatomic, strong) NSString* analyzer;
+@property (nullable, nonatomic, strong) NSString* defaultFieldAnalyzer;
+
+/**
+ * If the default field should be enabled for this index
+ *
+ * Default: NO, default field index is disabled by default
+ * Note: text indexes only
+ */
+@property (nonatomic) BOOL defaultFieldEnabled;
 
 /**
  * A selector to limit the documents in the index.

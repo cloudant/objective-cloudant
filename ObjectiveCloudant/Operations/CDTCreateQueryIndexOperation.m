@@ -32,6 +32,7 @@
     self = [super init];
     if (self) {
         _indexType = CDTQueryIndexTypeJson;
+        _defaultFieldEnabled = NO;
     }
     return self;
 }
@@ -58,7 +59,7 @@
     if (self.selector) {
         return NO;
     }
-    if (self.analyzer) {
+    if (self.defaultFieldAnalyzer) {
         return NO;
     }
 
@@ -147,8 +148,17 @@
         body[@"fields"] = self.fields;
     }
     body[@"type"] = @"text";
-    if (self.analyzer) {
-        body[@"index"][@"default_field"] = @{ @"enabled" : @(YES), @"analyzer" : self.analyzer };
+    if (self.defaultFieldEnabled) {
+        // if default field is enabled, but an analyzer hasn't been set, don't emit any json for
+        // default field, the user probably wants couchbd's defaults
+        if (self.defaultFieldAnalyzer) {
+            body[@"index"][@"default_field"] = @{
+                @"enabled" : @(self.defaultFieldEnabled),
+                @"analyzer" : self.defaultFieldAnalyzer
+            };
+        }
+    } else {
+        body[@"index"][@"default_field"] = @{ @"enabled" : @(self.defaultFieldEnabled) };
     }
     if (self.indexName) {
         body[@"name"] = self.indexName;
