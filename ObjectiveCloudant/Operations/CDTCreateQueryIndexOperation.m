@@ -33,6 +33,7 @@
     self = [super init];
     if (self) {
         _indexType = CDTQueryIndexTypeJson;
+        _defaultFieldEnabled = NO;
     }
     return self;
 }
@@ -40,6 +41,26 @@
 - (BOOL)buildAndValidate
 {
     if (![super buildAndValidate]) {
+        return NO;
+    }
+
+    switch (self.indexType) {
+        case CDTQueryIndexTypeJson:
+            return [self buildAndValidateJsonIndex];
+        case CDTQueryIndexTypeText:
+            return [self buildAndValidateTextIndex];
+        default:
+            return NO;
+    }
+}
+
+- (BOOL)buildAndValidateJsonIndex
+{
+    // check if the text only things have been used
+    if (self.selector) {
+        return NO;
+    }
+    if (self.defaultFieldAnalyzer) {
         return NO;
     }
 
@@ -54,7 +75,67 @@
 
     NSMutableDictionary *body = [NSMutableDictionary dictionary];
     body[@"index"] = @{ @"fields" : self.fields };
-    body[@"type"] = @"json";  // only type supported for now.
+    body[@"type"] = @"json";
+    if (self.indexName) {
+        body[@"name"] = self.indexName;
+    }
+    if (self.designDocName) {
+        body[@"ddoc"] = self.designDocName;
+    }
+
+    NSError *error = nil;
+
+    self.jsonBody = [NSJSONSerialization dataWithJSONObject:body options:0 error:&error];
+
+    return (self.jsonBody != nil);
+}
+
+- (BOOL)buildAndValidateTextIndex
+{
+    // fields parameter is not requried for text indexes
+    if (self.fields > 0) {  // less than zero will cause indexing everywhere
+        // check the fields are either string or 2 element dict of strings
+        for (NSObject *item in self.fields) {
+            if ([item isKindOfClass:[NSString class]]) {
+                continue;
+            } else if ([item isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *sort = (NSDictionary *)item;
+                if (sort.count != 1) {
+                    return NO;
+                }
+
+                NSObject *key = sort.allKeys[0];
+                NSObject *value = sort[key];
+                if (![key isKindOfClass:[NSString class]]) {
+                    return NO;
+                }
+                if (![@[ @"asc", @"desc" ] containsObject:value]) {
+                    return NO;
+                }
+            } else {
+                return NO;
+            }
+        }
+    }
+
+    NSMutableDictionary *body = [NSMutableDictionary dictionary];
+    body[@"index"] = [NSMutableDictionary dictionary];
+    if (self.fields) {
+        body[@"fields"] = self.fields;
+    }
+    body[@"type"] = @"text";
+    if (self.defaultFieldEnabled) {
+        // if default field is enabled, but an analyzer hasn't been set, don't emit any json for
+        // default field, the user probably wants couchbd's defaults
+        if (self.defaultFieldAnalyzer) {
+            body[@"index"][@"default_field"] = @{
+                @"enabled" : @(self.defaultFieldEnabled),
+                @"analyzer" : self.defaultFieldAnalyzer
+            };
+        }
+    } else {
+        body[@"index"][@"default_field"] = @{ @"enabled" : @(self.defaultFieldEnabled) };
+    }
     if (self.indexName) {
         body[@"name"] = self.indexName;
     }
