@@ -135,4 +135,63 @@
     [self addOperation:op];
 }
 
+- (void)createJSONQueryIndexWithName:(NSString *)indexName
+                              fields:(NSArray<NSObject *> *)fields
+                   completionHandler:(void (^)(NSError *_Nullable))completionHandler
+{
+    CDTCreateQueryIndexOperation *op = [[CDTCreateQueryIndexOperation alloc] init];
+    op.indexName = indexName;
+    op.fields = fields;
+    op.indexType = CDTQueryIndexTypeJson;
+    op.createIndexCompletionBlock = completionHandler;
+    [self addOperation:op];
+}
+
+- (void)createTextQueryIndexWithname:(NSString *)indexName
+                              fields:(NSArray<NSObject *> *)fields
+                   completionHandler:(void (^)(NSError *_Nullable))completionHandler
+{
+    CDTCreateQueryIndexOperation *op = [[CDTCreateQueryIndexOperation alloc] init];
+    op.indexName = indexName;
+    op.indexType = CDTQueryIndexTypeText;
+    op.defaultFieldEnabled = NO;
+    [self addOperation:op];
+}
+
+- (void)
+findDocumentsUsingSeletor:(NSDictionary<NSString *, NSObject *> *)selector
+          documentHandler:(void (^)(NSDictionary<NSString *, NSObject *> *_Nonnull))documentHandler
+        completionHandler:(void (^)(NSString *_Nullable, NSError *_Nullable))completionHandler
+{
+    CDTQueryFindDocumentsOperation *op = [[CDTQueryFindDocumentsOperation alloc] init];
+    op.selector = selector;
+    op.documentFoundBlock = documentHandler;
+    op.findDocumentsCompletionBlock = completionHandler;
+    [self addOperation:op];
+}
+
+- (void)deleteJSONQueryIndexWithName:(NSString *)indexName
+                  designDocumentName:(NSString *)designDocumentName
+                   completionHandler:(void (^)(NSInteger, NSError *_Nullable))completionHandler
+{
+    CDTDeleteQueryIndexOperation *op = [[CDTDeleteQueryIndexOperation alloc] init];
+    op.indexName = indexName;
+    op.indexType = CDTQueryIndexTypeJson;
+    op.desginDocName = designDocumentName;
+    op.deleteIndexCompletionBlock = completionHandler;
+    [self addOperation:op];
+}
+
+- (void)deleteTextQueryIndexWithName:(NSString *)indexName
+                  designDocumentName:(NSString *)designDocumentName
+                   completionHandler:(void (^)(NSInteger, NSError *_Nullable))completionHandler
+{
+    CDTDeleteQueryIndexOperation *op = [[CDTDeleteQueryIndexOperation alloc] init];
+    op.indexName = indexName;
+    op.desginDocName = designDocumentName;
+    op.indexType = CDTQueryIndexTypeText;
+    op.deleteIndexCompletionBlock = completionHandler;
+    [self addOperation:op];
+}
+
 @end

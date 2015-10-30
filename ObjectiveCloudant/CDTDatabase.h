@@ -103,4 +103,78 @@
                                             NSInteger statusCode,
                                             NSError *_Nullable operationError))completionHandler;
 
+/**
+ Convenience method for creating a JSON Query Index.
+
+ Use CDTCreateQueryIndexOperation for greater control.
+
+ @param indexName the name of the index to create
+ @param fields the fields to be indexed
+ @param completionHandler a block to call when the operation has been completed
+ */
+- (void)createJSONQueryIndexWithName:(nonnull NSString *)indexName
+                              fields:(nonnull NSArray<NSObject *> *)fields
+                   completionHandler:
+                       (void (^_Nonnull)(NSError *_Nullable operationError))completionHandler;
+
+/**
+ Convience method for creating a Text Query Index
+
+ Use CDTCreateQueryIndexOperation for greater control.
+
+ @param indexName the name of the index to create
+ @param fields the fields to be indexed
+ @param completionHandler a block to call when the operation has been completed
+ */
+- (void)createTextQueryIndexWithname:(nonnull NSString *)indexName
+                              fields:(nonnull NSArray<NSObject *> *)fields
+                   completionHandler:
+                       (void (^_Nonnull)(NSError *_Nullable operationError))completionHandler;
+
+/**
+ Convenience method for finding documents using Cloudant Query
+
+ Use CDTQueryFindDocumentsOperation for greater control.
+
+ @param selector the selector to use to find documents
+ @param documentHandler code block to run for each document found to match the selector
+ @param completionHandler code block to run when the operation is complete
+ */
+- (void)findDocumentsUsingSeletor:(nonnull NSDictionary<NSString *, NSObject *> *)selector
+                  documentHandler:
+                      (void (^_Nonnull)(NSDictionary<NSString *, NSObject *> *_Nonnull document))
+                          documentHandler
+                completionHandler:(void (^_Nonnull)(NSString *_Nullable bookmark,
+                                                    NSError *_Nullable error))completionHandler;
+
+/**
+ Convenience method for deleting Cloudant Query JSON indexes
+
+ Use CDTDeleteQueryIndexOperation for greater control.
+
+ @param indexname the name of the index tot delete
+ @param designDocumentName the name of the design document that contains the index
+ @param completionHander a block to run when the operation completes
+ */
+- (void)deleteJSONQueryIndexWithName:(nonnull NSString *)indexName
+                  designDocumentName:(nonnull NSString *)designDocumentName
+                   completionHandler:
+                       (void (^_Nonnull)(NSInteger status,
+                                         NSError *_Nullable operationError))completionHandler;
+
+/**
+ Convenience method for deleting Cloudant Query Text indexes
+
+ Use CDTDeleteQueryIndexOperation for greater control.
+
+ @param indexname the name of the index tot delete
+ @param designDocumentName the name of the design document that contains the index
+ @param completionHander a block to run when the operation completes
+ */
+- (void)deleteTextQueryIndexWithName:(nonnull NSString *)indexName
+                  designDocumentName:(nonnull NSString *)designDocumentName
+                   completionHandler:
+                       (void (^_Nonnull)(NSInteger status,
+                                         NSError *_Nullable operationError))completionHandler;
+
 @end

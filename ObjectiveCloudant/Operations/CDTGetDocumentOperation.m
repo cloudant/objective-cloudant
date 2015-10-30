@@ -98,6 +98,7 @@
                                   errorWithDomain:CDTObjectiveCloudantErrorDomain
                                              code:CDTObjectiveCloudantErrorGetDocumentFailed
                                          userInfo:userInfo];
+                              self.getDocumentCompletionBlock(result, error);
                           }
 
                           if (self && self.getDocumentCompletionBlock) {
