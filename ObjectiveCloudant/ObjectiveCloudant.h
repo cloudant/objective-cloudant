@@ -57,3 +57,4 @@ typedef NS_ENUM(NSUInteger, CDTQueryIndexType) {
 #import <ObjectiveCloudant/CDTCreateQueryIndexOperation.h>
 #import <ObjectiveCloudant/CDTDeleteQueryIndexOperation.h>
 #import <ObjectiveCloudant/CDTQueryFindDocumentsOperation.h>
+#import <ObjectiveCloudant/CDTQueryViewOperation.h>
