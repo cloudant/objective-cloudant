@@ -1,3 +1,6 @@
+# Unreleased
+- [NEW] CDTQueryViewOperation API to Query Map Reduce Views.
+
 # 0.2.2 (2015-11-24)
 
 - [FIX] Fixed issue where `selector` wasn't put into the POST body for text index
