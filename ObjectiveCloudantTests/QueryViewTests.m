@@ -83,8 +83,6 @@
 
     CDTQueryViewOperation *op = [[CDTQueryViewOperation alloc] init];
     op.viewName = @"diet";
-    op.key = @"key";
-    op.keys = @[ @"keys" ];
 
     op.queryViewCompletionBlock = ^(NSError *error) {
       [completionFailed fulfill];
@@ -106,8 +104,6 @@
     CDTQueryViewOperation *op = [[CDTQueryViewOperation alloc] init];
     op.ddoc = @"views101";
     op.viewName = @"diet";
-    op.key = @"key";
-    op.keys = @[ @"keys" ];
 
     op.queryViewCompletionBlock = ^(NSError *error) {
       [completionFailed fulfill];
@@ -122,7 +118,7 @@
                                  }];
 }
 
-- (void)testCorrectlyQueryViewNoOptions
+- (void)testSuccessfullyQueryViewNoOptions
 {
     XCTestExpectation *requestCompleted =
         [self expectationWithDescription:@"Succesfully view query"];
@@ -161,7 +157,7 @@
     XCTAssertEqual(10, numberOfDocs);
 }
 
-- (void)testCorrectlyQueryViewLimit1
+- (void)testSuccessfullyQueryViewLimit1
 {
     XCTestExpectation *requestCompleted =
         [self expectationWithDescription:@"Succesfully view query"];
@@ -193,7 +189,7 @@
                                  }];
 }
 
-- (void)testCorrectlyQueryViewDescending
+- (void)testSuccessfullyQueryViewDescending
 {
     NSArray *expectedOrderOfKeys = @[
         @"omnivore",
@@ -273,7 +269,7 @@
                                  }];
 }
 
-- (void)testCorrectlyQueryViewInculdingDocs
+- (void)testSuccessfullyQueryViewInculdingDocs
 {
     XCTestExpectation *requestCompleted =
         [self expectationWithDescription:@"Succesfully view query"];
@@ -317,7 +313,7 @@
     XCTAssertEqual(10, numberOfDocs);
 }
 
-- (void)testCorrectlyQueryViewSkipDocs
+- (void)testSuccessfullyQueryViewSkipDocs
 {
     XCTestExpectation *requestCompleted =
         [self expectationWithDescription:@"Succesfully view query"];
@@ -359,7 +355,7 @@
     XCTAssertEqual(1, numberOfDocs);
 }
 
-- (void)testCorrectlyPages
+- (void)testSuccessfullyPages
 {
     XCTestExpectation *requestCompleted = [self expectationWithDescription:@"Succesfully query db"];
     XCTestExpectation *viewRowBlock = [self expectationWithDescription:@"Document found"];

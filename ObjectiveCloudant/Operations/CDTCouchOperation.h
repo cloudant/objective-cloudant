@@ -34,42 +34,47 @@ extern NSInteger const kCDTNoHTTPStatus;
  * Replication errors.
  */
 typedef NS_ENUM(NSInteger, CDTObjectiveCloudantErrors) {
-/**
- Creating a database failed.
- */
+    /**
+     Creating a database failed.
+     */
     CDTObjectiveCloudantErrorCreateDatabaseFailed,
-/**
- Deleting a database failed.
- */
+    /**
+     Deleting a database failed.
+     */
     CDTObjectiveCloudantErrorDeleteDatabaseFailed,
-/**
- Validation of operation settings failed.
-*/
+    /**
+     Validation of operation settings failed.
+    */
     CDTObjectiveCloudantErrorValidationFailed,
-/**
- Deleting a Query index failed.
- */
+    /**
+     Deleting a Query index failed.
+     */
     CDTObjectiveCloudantErrorDeleteQueryIndexFailed,
-/**
- Creating a Query index failed.
- */
+    /**
+     Creating a Query index failed.
+     */
     CDTObjectiveCloudantErrorCreateQueryIndexFailed,
-/**
- Getting a document failed.
- */
+    /**
+     Getting a document failed.
+     */
     CDTObjectiveCloudantErrorGetDocumentFailed,
-/**
- Creating or updating a document failed.
- */
+    /**
+     Creating or updating a document failed.
+     */
     CDTObjectiveCloudantErrorCreateUpdateDocumentFailed,
-/**
- Deleting a document failed.
- */
+    /**
+     Deleting a document failed.
+     */
     CDTObjectiveCloudantErrorDeleteDocumentFailed,
-/**
- Finding documents failed.
- */
-    CDTObjectiveCloudantErrorFindDocumentsFailed
+    /**
+     Finding documents failed.
+     */
+    CDTObjectiveCloudantErrorFindDocumentsFailed,
+
+    /**
+     Querying a view failed.
+     */
+    CDTObjectiveCloudantErrorQueryViewFailed
 };
 
 /**

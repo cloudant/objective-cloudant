@@ -1,5 +1,5 @@
 //
-//  CDTGetViewOperation.h
+//  CDTQueryViewOperation.h
 //  ObjectiveCloudant
 //
 //  Created by Rhys Short on 15/02/2016.
@@ -53,7 +53,7 @@ typedef NS_ENUM(NSUInteger, CDTStale) {
 /**
  * Return the documents in 'descending by key' order.
  *
- * Default : NO, order is aescending by key.
+ * Default : NO, order is ascending by key.
  */
 @property (nonatomic) BOOL descending;
 
@@ -73,7 +73,7 @@ typedef NS_ENUM(NSUInteger, CDTStale) {
 @property (nullable, nonatomic, strong) NSString *endkeyDocId;
 
 /**
- * Group the results of a reduced based on their keys.
+ * Group the results of a reduce based on their keys.
  *
  * Default: NO.
  */
@@ -109,7 +109,7 @@ typedef NS_ENUM(NSUInteger, CDTStale) {
  * Return only documents that match the specified key.
  * The key must be of type `NSString*` or `NSArray<NSString*>*`
  *
- * Cannot be used with `key` option.
+ * Cannot be used with `keys` option.
  *
  * Optional: CouchDB will return all documents emitted from the view.
  */
@@ -118,6 +118,8 @@ typedef NS_ENUM(NSUInteger, CDTStale) {
 /**
  * Return only the documents that match the specified keys.
  * The keys in the array must be of type `NSString*` or `NSArray<NSString*>*`
+ *
+ * Cannot be used with `key` option.
  *
  * Optional: CouchDB will return all documents emitted from the view.
  */
@@ -141,19 +143,19 @@ typedef NS_ENUM(NSUInteger, CDTStale) {
 /**
  * The number of rows to skip in the view results.
  *
- * Optional, CouchDB will noy skip any matching rows, negative values will
+ * Optional, CouchDB will not skip any matching rows, negative values will
  * result in the parameter not being included in requests
  */
 @property (nonatomic) NSInteger skip;
 
 /**
  * Allows a stale view to be used to return a result, this allows the request
- * to return imediately and not wait for views to build.
+ * to return immediately and not wait for views to build.
  *
  * Default: CDTStaleViewNo.
  *
  * WANRING: This is an advanced option, it should not be used unless you know exactly what you are
- * doing, it will be deterimental to performance.
+ * doing, it will be detrimental to performance.
  */
 @property (nonatomic) CDTStale stale;
 
@@ -182,7 +184,7 @@ typedef NS_ENUM(NSUInteger, CDTStale) {
     (NSDictionary<NSString *, NSObject *> *_Nonnull row);
 
 /**
- *  Completion blokc to run when the operation completes.
+ *  Completion block to run when the operation completes.
  *
  * - error a pointer to an error object containing information about an error executing the
  * operation.

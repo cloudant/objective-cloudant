@@ -1,5 +1,5 @@
 //
-//  CDTGetViewOperation.m
+//  CDTQueryViewOperation.m
 //  ObjectiveCloudant
 //
 //  Created by Rhys Short on 15/02/2016.
@@ -28,6 +28,7 @@ static const int kCDTDefaultOperationIntegerValue = -1;
         _groupLevel = kCDTDefaultOperationIntegerValue;
         _includeDocs = NO;
         _inclusiveEnd = NO;
+        _reduce = NO;
         _limit = kCDTDefaultOperationIntegerValue;
         _skip = kCDTDefaultOperationIntegerValue;
         _stale = CDTStaleViewNo;
@@ -193,7 +194,7 @@ static const int kCDTDefaultOperationIntegerValue = -1;
                           error:(NSError *)error
 {
     if (error) {
-        self.queryViewCompletionBlock(error);
+        [self callCompletionHandlerWithError:error];
     } else if (statusCode / 100 == 2) {
         // process the things!
         NSError *jsonError;
@@ -201,7 +202,7 @@ static const int kCDTDefaultOperationIntegerValue = -1;
             [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
 
         if (!responseJson) {
-            self.queryViewCompletionBlock(jsonError);
+            [self callCompletionHandlerWithError:jsonError];
         } else {
             if (self.viewRowBlock) {
                 for (NSDictionary<NSString *, NSObject *> *row in(
@@ -220,9 +221,10 @@ static const int kCDTDefaultOperationIntegerValue = -1;
             stringWithFormat:@"Querying view failed with %ld %@.", (long)statusCode, json];
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : NSLocalizedString(msg, nil)};
         error = [NSError errorWithDomain:CDTObjectiveCloudantErrorDomain
-                                    code:CDTObjectiveCloudantErrorCreateDatabaseFailed
+                                    code:CDTObjectiveCloudantErrorQueryViewFailed
                                 userInfo:userInfo];
-        self.queryViewCompletionBlock(error);
+
+        [self callCompletionHandlerWithError:error];
     }
 }
 
