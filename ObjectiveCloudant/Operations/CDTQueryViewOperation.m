@@ -258,7 +258,9 @@ static const int kCDTDefaultOperationIntegerValue = -1;
 
         if (error) {
             // well we need to error here
-            @throw error;
+            @throw [NSException exceptionWithName:@"JSONSerialisationError"
+                                           reason:@"Could not seralise array into json"
+                                         userInfo:nil];
         }
 
         return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
