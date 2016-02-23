@@ -103,7 +103,6 @@
 
     CDTQueryViewOperation *op = [[CDTQueryViewOperation alloc] init];
     op.ddoc = @"views101";
-    op.viewName = @"diet";
 
     op.queryViewCompletionBlock = ^(NSError *error) {
       [completionFailed fulfill];
@@ -230,6 +229,7 @@
       XCTAssertNotNil(doc[@"id"]);
       XCTAssertNotNil(doc[@"key"]);
       XCTAssertNotNil(doc[@"value"]);
+      XCTAssertNil(doc[@"doc"]);
 
       [orderedKeys addObject:doc[@"key"]];
     };
@@ -386,6 +386,7 @@
       XCTAssertNotNil(doc[@"id"]);
       XCTAssertNotNil(doc[@"key"]);
       XCTAssertNotNil(doc[@"value"]);
+      XCTAssertNil(doc[@"doc"]);
 
       lastDocId = (NSString *)doc[@"id"];
       lastKey = (NSString *)doc[@"key"];
