@@ -174,6 +174,9 @@
       XCTAssertNotNil(doc[@"id"]);
       XCTAssertNotNil(doc[@"key"]);
       XCTAssertNotNil(doc[@"value"]);
+      XCTAssertEqualObjects(@"kookaburra", doc[@"id"]);
+      XCTAssertEqualObjects(@"carnivore", doc[@"key"]);
+      XCTAssertEqualObjects(@1, doc[@"value"]);
     };
 
     op.queryViewCompletionBlock = ^(NSError *error) {
@@ -337,6 +340,9 @@
       XCTAssertNotNil(doc[@"id"]);
       XCTAssertNotNil(doc[@"key"]);
       XCTAssertNotNil(doc[@"value"]);
+      XCTAssertEqualObjects(@"snipe", doc[@"id"]);
+      XCTAssertEqualObjects(@"omnivore", doc[@"key"]);
+      XCTAssertEqualObjects(@1, doc[@"value"]);
 
     };
 
