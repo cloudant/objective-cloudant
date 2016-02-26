@@ -139,6 +139,7 @@
       XCTAssertNotNil(doc[@"id"]);
       XCTAssertNotNil(doc[@"key"]);
       XCTAssertNotNil(doc[@"value"]);
+      XCTAssertNil(doc[@"doc"]);
     };
 
     op.queryViewCompletionBlock = ^(NSError *error) {
@@ -343,6 +344,7 @@
       XCTAssertEqualObjects(@"snipe", doc[@"id"]);
       XCTAssertEqualObjects(@"omnivore", doc[@"key"]);
       XCTAssertEqualObjects(@1, doc[@"value"]);
+      XCTAssertNil(doc[@"doc"]);
 
     };
 
