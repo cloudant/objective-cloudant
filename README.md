@@ -33,6 +33,15 @@ it add the following line to your Podfile:
 pod 'ObjectiveCloudant'
 ```
 
+objective-cloudant is also fully compatible with the `use_frameworks!` flag for cocoapods,
+to use objective-cloudant as a framework in your app add the following to your Podfile:
+
+```ruby
+use_frameworks!
+pod `ObjectiveCloudant`
+```
+
+
 ## <a name="overview"></a>Overview of the library
 
 Once the library is added to a project the basics of adding and reading a document
