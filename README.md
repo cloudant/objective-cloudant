@@ -125,7 +125,7 @@ db.putDocumentWithId("doc1",
 
 //read document
 db.getDocumentWithId("doc1",
-    completionHander:(document, operationError) -> Void {
+    completionHander:{ (document, operationError) -> Void in
         if let error = operationError {
             println("Encountered an error reading a document. Error: \(error)")
         } else {
@@ -138,7 +138,7 @@ db.deleteDocumentWithId("doc1",
     revisionId: "1-revisionidhere",
     completionHandler: { (statusCode, operationError) -> Void in
         if let error = operationError {
-            print("Encountered error: \(error!)")
+            print("Encountered error: \(error)")
         } else {
             print("document deleted")
         }
