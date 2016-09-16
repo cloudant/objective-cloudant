@@ -1,3 +1,7 @@
+# 0.2.2 (2016-09-16)
+
+- [DEPRECATED] Deprecated in favour of [SwiftCloudant](https://github.com/cloudant/swift-cloudant).
+
 # 0.2.2 (2015-11-24)
 
 - [FIX] Fixed issue where `selector` wasn't put into the POST body for text index
