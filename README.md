@@ -4,6 +4,8 @@
 [![Platform](http://cocoapod-badges.herokuapp.com/p/ObjectiveCloudant/badge.png)](http://cocoadocs.org/docsets/ObjectiveCloudant)
 [![Build Status](https://travis-ci.org/cloudant/objective-cloudant.svg?branch=master)](https://travis-ci.org/cloudant/objective-cloudant)
 
+**This library has been deprecated, it has been replaced with [SwiftCloudant](https://github.com/cloudant/swift-cloudant)**
+
 **Applications use objective-cloudant to store, index and query remote
 JSON data on Cloudant or CouchDB.**
 

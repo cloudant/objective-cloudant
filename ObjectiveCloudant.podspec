@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ObjectiveCloudant"
-  s.version      = "0.2.2"
+  s.version      = "0.2.3"
   s.summary      = "Objective-cloudant is a client library for  Apache CouchDB / IBM Cloudant"
 
   s.description  = <<-DESC
@@ -28,6 +28,9 @@ Pod::Spec.new do |s|
 
   s.public_header_files = "ObjectiveCloudant/**/*.h"
   s.private_header_files = "ObjectiveCloudant/**/*+Internal.h"
+
+  s.deprecated = true
+  s.deprecated_in_favor_of = "SwiftCloudant"
 
 
 end
