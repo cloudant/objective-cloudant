@@ -1,4 +1,4 @@
-# 0.2.2 (2016-09-16)
+# 0.2.3 (2016-09-16)
 
 - [DEPRECATED] Deprecated in favour of [SwiftCloudant](https://github.com/cloudant/swift-cloudant).
 
